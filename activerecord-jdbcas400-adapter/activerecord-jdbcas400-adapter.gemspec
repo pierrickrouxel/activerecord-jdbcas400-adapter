@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{Install this gem to use AS/400 with JRuby on Rails.}
   s.email = %q{nick@nicksieger.com, ola.bini@gmail.com}
 
-  s.homepage = %q{https://github.com/jruby/activerecord-jdbc-adapter}
+  s.homepage = %q{https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter}
   s.rubyforge_project = %q{jruby-extras}
   s.summary = %q{AS/400 JDBC adapter for JRuby on Rails.}
 

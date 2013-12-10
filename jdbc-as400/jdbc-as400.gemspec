@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     "Rakefile", "README.md", "LICENSE.txt",
     *Dir["lib/**/*"].to_a
   ]
-  s.homepage = %q{https://github.com/jruby/activerecord-jdbc-adapter}
+  s.homepage = %q{https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter}
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{jruby-extras}
