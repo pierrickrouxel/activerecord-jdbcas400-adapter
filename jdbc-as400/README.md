@@ -27,5 +27,5 @@ Java 1.6 or later is required.
 
 Copyright (c) 2012 [The JRuby Team](https://github.com/jruby).
 
-Apache Derby is available under the Apache License, Version 2.0
-see *LICENSE.txt* and http://db.apache.org/derby/license.html for more details.
+JTopen is available under the IBM Public License Version 1.0
+see *LICENSE.txt*.
