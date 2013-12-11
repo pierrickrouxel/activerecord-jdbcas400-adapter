@@ -1,7 +1,7 @@
-= activerecord-jdbcas400-adapter
+# activerecord-jdbcas400-adapter
 
-== DESCRIPTION:
+## Description
 
 This is an ActiveRecord driver for AS/400 using JDBC running under JRuby.
 
-See https://github.com/jruby/activerecord-jdbc-adapter/ for more details.
+For more information see https://github.com/jruby/activerecord-jdbc-adapter/

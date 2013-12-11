@@ -13,7 +13,10 @@ Gem::Specification.new do |s|
   s.summary = %q{AS/400 JDBC adapter for JRuby on Rails.}
 
   s.require_paths = ["lib"]
-  s.files = `git ls-files`.split("\n") # assuming . working directory
+  s.files = s.files = [
+    "Rakefile", "README.md", "LICENSE.txt",
+    *Dir["lib/**/*"].to_a
+  ]
 
   s.add_dependency 'activerecord-jdbc-adapter', ">= 1.3.4"
   s.add_dependency 'jdbc-as400', '>= 7.10'
