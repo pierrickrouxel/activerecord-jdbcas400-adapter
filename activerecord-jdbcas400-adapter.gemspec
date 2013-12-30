@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files = [
     "Rakefile", "README.md", "LICENSE.txt",
     *Dir["lib/**/*"].to_a
-  ]
+    ]
 
   s.add_dependency 'activerecord-jdbc-adapter', ">= 1.3.4"
 end
