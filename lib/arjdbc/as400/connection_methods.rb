@@ -11,10 +11,12 @@ ArJdbc::ConnectionMethods.module_eval do
       # jdbc:as400://[host]
       url = 'jdbc:as400://'
       url << config[:host] if config[:host]
-      # jdbc:as400://myiSeries;database name=IASP1
+      # jdbc:as400://[host];database name=[database]
       url << ";database name=#{config[:database]}" if config[:database]
-      # jdbc:as400://[host];proxy server=HODServerName:proxyServerPort
+      # jdbc:as400://[host];proxy server=[proxy:port]
       url << ";proxy server=#{config[:proxy]}" if config[:proxy]
+      # jdbc:as400://[host];proxy server=[proxy:port];prompt=false
+      url << ';prompt=false'
       url
     end
     require 'arjdbc/as400/adapter'
