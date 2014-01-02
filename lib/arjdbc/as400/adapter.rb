@@ -60,8 +60,8 @@ module ArJdbc
     def execute_and_auto_confirm(sql, name = nil)
 
       begin
-        @connection.execute_update "call qsys.qcmdexc('QSYS/CHGJOB INQMSGRPY(*SYSRPYL)',0000000031.00000)"
-        @connection.execute_update "call qsys.qcmdexc('ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY(''I'')',0000000045.00000)"
+        @connection.execute_update "CALL qsys.qcmdexc('QSYS/CHGJOB INQMSGRPY(*SYSRPYL)', 0000000031.00000)"
+        @connection.execute_update "CALL qsys.qcmdexc('ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY(''I'')', 0000000045.00000)"
       rescue Exception => e
         raise "Could not call CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I').\n" +
               "Do you have authority to do this?\n\n#{e.inspect}"
@@ -78,8 +78,8 @@ module ArJdbc
 
         # Ensure default configuration restoration
         begin
-          @connection.execute_update "call qsys.qcmdexc('QSYS/CHGJOB INQMSGRPY(*DFT)',0000000027.00000)"
-          @connection.execute_update "call qsys.qcmdexc('RMVRPYLE SEQNBR(9876)',0000000021.00000)"
+          @connection.execute_update "CALL qsys.qcmdexc('QSYS/CHGJOB INQMSGRPY(*DFT)', 0000000027.00000)"
+          @connection.execute_update "CALL qsys.qcmdexc('RMVRPYLE SEQNBR(9876)', 0000000021.00000)"
         rescue Exception => e
           raise "Could not call CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876).\n" +
                     "Do you have authority to do this?\n\n#{e.inspect}"
@@ -89,46 +89,44 @@ module ArJdbc
     end
     private :execute_and_auto_confirm
 
-    # disable all schemas browsing when default schema is specified
+    # Disable all schemas browsing
     def table_exists?(name)
       return false unless name
-      schema ? @connection.table_exists?(name, schema) : @connection.table_exists?(name)
+      @connection.table_exists?(name, db2_schema)
+    end
+
+    def indexes(table_name, name = nil)
+      @connection.indexes(table_name, name, db2_schema)
     end
 
     DRIVER_NAME = 'com.ibm.as400.access.AS400JDBCDriver'.freeze
 
-    # @private
-    # @deprecated no longer used
-    def as400?
-      true
+    # Do not return *LIBL as schema
+    def schema
+      system_naming? ? nil : db2_schema
     end
 
     private
+    # If naming is really in system mode CURRENT_SCHEMA is *LIBL
+    def system_naming?
+      @db2_schema == '*LIBL'
+    end
+
+    # SET SCHEMA statement put connection in sql naming
+    def set_schema(schema)
+      execute("SET SCHEMA #{schema}") unless system_naming?
+    end
 
     # @override
     def db2_schema
-      @db2_schema = false unless defined? @db2_schema
-      return @db2_schema if @db2_schema != false
+      return @db2_schema if defined? @db2_schema
       @db2_schema =
         if config[:schema].present?
           config[:schema]
-        elsif config[:jndi].present?
+        else
           # Only found method to set db2_schema from jndi
           result = select_one("SELECT CURRENT_SCHEMA FROM SYSIBM.SYSDUMMY1")
-          schema = result['00001']
-          # If the connection uses the library list schema name will be nil
-          if schema == '*LIBL'
-            schema = nil
-          end
-          schema
-        else
-          # AS400 implementation takes schema from library name (last part of URL)
-          # jdbc:as400://localhost/schema;naming=system;libraries=lib1,lib2
-          schema = nil
-          split = config[:url].split('/')
-          # Return nil if schema isn't defined
-          schema = split.last.split(';').first.strip if split.size == 4
-          schema
+          result['00001']
         end
     end
 

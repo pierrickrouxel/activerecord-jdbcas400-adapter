@@ -8,14 +8,13 @@ ArJdbc::ConnectionMethods.module_eval do
     end
     
     config[:url] ||= begin
-      # jdbc:as400://[host]
+      # jdbc:as400://[host];proxy server=[proxy:port];naming=[naming];libraries=[libraries];prompt=false
       url = 'jdbc:as400://'
       url << config[:host] if config[:host]
-      # jdbc:as400://[host];database name=[database]
       url << ";database name=#{config[:database]}" if config[:database]
-      # jdbc:as400://[host];proxy server=[proxy:port]
       url << ";proxy server=#{config[:proxy]}" if config[:proxy]
-      # jdbc:as400://[host];proxy server=[proxy:port];prompt=false
+      url << ";naming=#{config[:naming]}" if config[:naming]
+      url << ";libraries=#{config[:libraries]}" if config[:libraries]
       url << ';prompt=false'
       url
     end

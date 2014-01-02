@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "activerecord-jdbcas400-adapter"
-  s.version     = "1.3.4.1"
+  s.version     = "1.3.4.2"
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Nick Sieger, Ola Bini, Pierrick Rouxel and JRuby contributors"]
   s.description = %q{Install this gem to use AS/400 with JRuby on Rails.}
@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
     "Rakefile", "README.md", "LICENSE.txt",
     *Dir["lib/**/*"].to_a
     ]
+  s.test_files = *Dir["test/**/*"].to_a
 
   s.add_dependency 'activerecord-jdbc-adapter', ">= 1.3.4"
 end
