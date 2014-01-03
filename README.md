@@ -37,3 +37,7 @@ If your DB isn't correctly discovered you can specify the dialect:
 ## Dependency
 
 You can embed the JTOpen driver in your application. It is distributed in a separate gem : 'as400-jdbc'
+
+## Licence
+
+This software is under GPL-3.0 licence.
