@@ -1,3 +1,6 @@
+## 1.3.4.3 (dev)
+- Register adapter to database tasks
+
 ## 1.3.4.2 (03/01/14)
 - Add tests
 - Add naming system and library list support
