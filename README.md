@@ -39,11 +39,25 @@ If your DB isn't correctly discovered you can specify the dialect:
 To allow migrations with system naming, a configuration is added to adapter:
 
 ```yml
-current_library: lib
+  current_library: lib
 ```
 
 The specified library will be used to define a schema during create_table migration.
 It prevents creation of a table in QGPL.
+
+If you want to use it with JNDI you can create a JNDI string and use erb in yaml to do something like this:
+
+```yml
+<%
+require 'java'
+current_library = Java::JavaxNaming::InitialContext.new.lookup('java:comp/env/currentLibrary').to_s if Rails.env.production?
+%>
+
+production:
+  adapter: as400
+  jndi: jdbc/dataSource
+  current_library: <%=current_library%>
+```
 
 ## Compatibility
 
