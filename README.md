@@ -34,6 +34,22 @@ If your DB isn't correctly discovered you can specify the dialect:
   dialect: as400
 ```
 
+## Experimental feature
+
+To allow migrations with system naming, a configuration is added to adapter:
+
+```yml
+current_library: lib
+```
+
+The specified library will be used to define a schema during create_table migration.
+It prevents creation of a table in QGPL.
+
+## Compatibility
+
+Actually activerecord-jdbcas400-adapter is only compatible with IBM i V6R1 and later versions.
+It requires JDBC 4.0 driver and Java 6.
+
 ## Dependency
 
 You can embed the JTOpen driver in your application. It is distributed in a separate gem : 'as400-jdbc'

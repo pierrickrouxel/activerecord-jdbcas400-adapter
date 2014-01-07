@@ -36,6 +36,27 @@ module ArJdbc
       ADAPTER_NAME
     end
 
+    # Return only migrated tables
+    def tables
+      if config[:current_library]
+        @connection.tables(nil, config[:current_library])
+      else
+        @connection.tables(nil, db2_schema)
+      end
+    end
+
+    # Force migration in current library
+    def create_table(name, options = {})
+      execute("SET SCHEMA #{config[:current_library]}") if config[:current_library]
+      super
+      execute('SET SCHEMA DEFAULT') if config[:current_library]
+    end
+
+    # Prevent migration in QGPL
+    def supports_migrations?
+      !(system_naming? && config[:current_library].nil?)
+    end
+
     # @override
     def prefetch_primary_key?(table_name = nil)
       # TRUE if the table has no identity column

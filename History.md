@@ -1,4 +1,5 @@
-## 1.3.4.3 (dev)
+## 1.3.4.3 (07/01/14)
+- [Experimental feature] Add current library for migrations
 - Register adapter to database tasks
 
 ## 1.3.4.2 (03/01/14)

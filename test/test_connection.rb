@@ -13,4 +13,15 @@ class TestConnection < Test::Unit::TestCase
     assert_equal(system_connection.instance_eval {db2_schema}, '*LIBL')
     assert_nil(system_connection.schema)
   end
+
+  def test_migration_support
+    assert_true(connection.supports_migrations?)
+
+    connection = system_connection
+    connection.config[:current_library] = 'QTEMP'
+    assert_true(connection.supports_migrations?)
+
+    connection.config[:current_library] = nil
+    assert_false(connection.supports_migrations?)
+  end
 end
