@@ -1,11 +1,7 @@
 require 'java'
 
-begin
-  require 'bundler'
-rescue LoadError => e
-  require('rubygems') && retry
-  raise e
-end
+require 'rubygems'
+require 'bundler/setup'
 Bundler.require(:default, :test)
 
 class Test::Unit::TestCase
@@ -16,6 +12,13 @@ class Test::Unit::TestCase
 
   def data_source_connection
     return @connection if @connection && @connection_type == 'data_source'
+
+    begin
+      require 'jdbc/as400'
+      ::Jdbc::AS400.load_driver(:require) if defined?(::Jdbc::AS400.load_driver)
+    rescue LoadError # assuming driver.jar is on the class-path
+    end
+
     # Create a data source to the iSeries database.
     datasource = com.ibm.as400.access.AS400JDBCDataSource.new
     datasource.setServerName(config[:host])
