@@ -6,6 +6,20 @@ https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter/
 
 This is an ActiveRecord driver for AS/400 using JDBC running under JRuby.
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'activerecord-jdbcas400-adapter'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install activerecord-jdbcas400-adapter
+
 ## Usage
 
 Configure your database.yml in the normal Rails style:
