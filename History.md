@@ -1,3 +1,7 @@
+## 1.3.5 (20/01/14)
+- activerecord-jdbc-adapter 1.3.5 fixes the comparisons with NULL
+- Update of documentation for the Websphere Application Server support
+
 ## 1.3.4.3 (07/01/14)
 - [Experimental feature] Add current library for migrations
 - Register adapter to database tasks
