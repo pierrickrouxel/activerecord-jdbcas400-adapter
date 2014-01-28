@@ -1,3 +1,6 @@
+## 1.3.5.1 (dev)
+- Update of schema configurations for better performances
+
 ## 1.3.5 (20/01/14)
 - activerecord-jdbc-adapter 1.3.5 fixes the comparisons with NULL
 - Update of documentation for the Websphere Application Server support

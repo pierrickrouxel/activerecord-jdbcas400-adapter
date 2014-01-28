@@ -7,11 +7,9 @@ class TestConnection < Test::Unit::TestCase
   end
 
   def test_schema
-    assert_equal(connection.instance_eval {db2_schema}, config[:schema])
     assert_equal(connection.schema, config[:schema])
 
-    assert_equal(system_connection.instance_eval {db2_schema}, '*LIBL')
-    assert_nil(system_connection.schema)
+    assert_equal(system_connection.schema, '*LIBL')
   end
 
   def test_migration_support

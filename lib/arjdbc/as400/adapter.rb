@@ -41,7 +41,7 @@ module ArJdbc
       if config[:current_library]
         @connection.tables(nil, config[:current_library])
       else
-        @connection.tables(nil, db2_schema)
+        @connection.tables(nil, schema)
       end
     end
 
@@ -59,12 +59,9 @@ module ArJdbc
 
     # @override
     def prefetch_primary_key?(table_name = nil)
-      # TRUE if the table has no identity column
-      names = table_name.upcase.split(".")
-      sql = "SELECT 1 FROM SYSIBM.SQLPRIMARYKEYS WHERE "
-      sql << "TABLE_SCHEM = '#{names.first}' AND " if names.size == 2
-      sql << "TABLE_NAME = '#{names.last}'"
-      select_one(sql).nil?
+      return true if table_name.nil?
+      table_name = table_name.to_s
+      columns(table_name).count { |column| column.primary } == 0
     end
 
     # @override
@@ -113,29 +110,34 @@ module ArJdbc
     # Disable all schemas browsing
     def table_exists?(name)
       return false unless name
-      @connection.table_exists?(name, db2_schema)
+      @connection.table_exists?(name, schema)
     end
 
     def indexes(table_name, name = nil)
-      @connection.indexes(table_name, name, db2_schema)
+      @connection.indexes(table_name, name, schema)
     end
 
     DRIVER_NAME = 'com.ibm.as400.access.AS400JDBCDriver'.freeze
 
+    # Set schema is it specified
+    def configure_connection
+      set_schema(config[:schema]) if config[:schema]
+    end
+
     # Do not return *LIBL as schema
     def schema
-      system_naming? ? nil : db2_schema
+      db2_schema
     end
 
     private
     # If naming is really in system mode CURRENT_SCHEMA is *LIBL
     def system_naming?
-      @db2_schema == '*LIBL'
+      schema == '*LIBL'
     end
 
     # SET SCHEMA statement put connection in sql naming
     def set_schema(schema)
-      execute("SET SCHEMA #{schema}") unless system_naming?
+      execute("SET SCHEMA #{schema}")
     end
 
     # @override
