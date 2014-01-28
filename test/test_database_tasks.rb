@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestConnection < Test::Unit::TestCase
+class TestDatabaseTasks < Test::Unit::TestCase
   def test_tasks_registered
     adapter_name = connection.config[:adapter]
     assert_nothing_raised do
