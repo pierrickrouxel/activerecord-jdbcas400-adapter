@@ -1,4 +1,4 @@
-## 1.3.5.1 (dev)
+## 1.3.5.1 (29/01/14)
 - Update of schema configurations for better performances
 
 ## 1.3.5 (20/01/14)
