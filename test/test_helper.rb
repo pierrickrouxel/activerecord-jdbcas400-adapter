@@ -1,8 +1,7 @@
 require 'java'
 
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:default, :test)
+require 'test-unit'
+require 'activerecord-jdbc-adapter'
 
 class Test::Unit::TestCase
   def config
