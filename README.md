@@ -73,17 +73,6 @@ production:
   current_library: <%=current_library%>
 ```
 
-## Connection pool
-Websphere Application Server for i provides data sources with connection pool.
-Rails has it's own connection pool management. To make them compatible you should define:
-
-  * Connection timeout: 0
-  * Maximum connections: 5 (default) or same as rails configuration
-  * Minimum connections: 0 to Maximum connections
-  * Reap time: 0
-  * Unused timeout: 0
-  * Aged timeout: 0
-
 ## Compatibility
 
 Actually activerecord-jdbcas400-adapter is only compatible with IBM i V6R1 and later versions.
