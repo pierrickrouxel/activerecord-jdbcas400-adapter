@@ -1,3 +1,6 @@
+## 1.3.5.2 (25/02/14)
+- Remove GPL v3 licence
+
 ## 1.3.5.1 (29/01/14)
 - Update of schema configurations for better performances
 

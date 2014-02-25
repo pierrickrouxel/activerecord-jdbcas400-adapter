@@ -81,7 +81,3 @@ It requires JDBC 4.0 driver and Java 6.
 ## Dependency
 
 You can embed the JTOpen driver in your application. It is distributed in a separate gem : 'as400-jdbc'
-
-## Licence
-
-This software is under GPL-3.0 licence.

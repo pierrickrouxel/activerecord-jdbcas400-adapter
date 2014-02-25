@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = 'activerecord-jdbcas400-adapter'
-  spec.version     = '1.3.5.1'
+  spec.version     = '1.3.5.2'
   spec.platform    = Gem::Platform::RUBY
   spec.authors = ['Nick Sieger, Ola Bini, Pierrick Rouxel and JRuby contributors']
   spec.description = %q{Install this gem to use AS/400 with JRuby on Rails.}
@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage = %q{https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter}
   spec.rubyforge_project = %q{jruby-extras}
   spec.summary = %q{AS/400 JDBC adapter for JRuby on Rails.}
-  spec.license = 'GPL-3.0'
+  spec.license = ''
 
   spec.require_paths = ['lib']
   spec.files = [
