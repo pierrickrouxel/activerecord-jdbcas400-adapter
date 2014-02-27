@@ -1,3 +1,6 @@
+## 1.3.5.3 (27/02/14)
+- rename_column support
+
 ## 1.3.5.2 (25/02/14)
 - Remove GPL v3 licence
 

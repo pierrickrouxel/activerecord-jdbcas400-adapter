@@ -1,40 +1,40 @@
 PATH
   remote: 
   specs:
-    activerecord-jdbcas400-adapter (1.3.5.1)
+    activerecord-jdbcas400-adapter (1.3.5.3)
       activerecord-jdbc-adapter (>= 1.3.5)
     jdbc-as400 (7.10)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.0.2)
-      activesupport (= 4.0.2)
+    activemodel (4.0.3)
+      activesupport (= 4.0.3)
       builder (~> 3.1.0)
-    activerecord (4.0.2)
-      activemodel (= 4.0.2)
+    activerecord (4.0.3)
+      activemodel (= 4.0.3)
       activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.2)
+      activesupport (= 4.0.3)
       arel (~> 4.0.0)
     activerecord-deprecated_finders (1.0.3)
-    activerecord-jdbc-adapter (1.3.5)
+    activerecord-jdbc-adapter (1.3.6)
       activerecord (>= 2.2)
-    activesupport (4.0.2)
+    activesupport (4.0.3)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    arel (4.0.1)
-    atomic (1.1.14-java)
+    arel (4.0.2)
+    atomic (1.1.15-java)
     builder (3.1.4)
     i18n (0.6.9)
     minitest (4.7.5)
     multi_json (1.8.4)
     rake (10.1.1)
     test-unit (2.5.5)
-    thread_safe (0.1.3-java)
-      atomic
+    thread_safe (0.2.0-java)
+      atomic (>= 1.1.7, < 2)
     tzinfo (0.3.38)
 
 PLATFORMS

@@ -66,7 +66,10 @@ module ArJdbc
 
     # @override
     def rename_column(table_name, column_name, new_column_name)
-      raise NotImplementedError, "rename_column is not supported on IBM iSeries"
+      column = columns(table_name, column_name).find { |column| column.name == column_name.to_s}
+      add_column(table_name, new_column_name, column.type)
+      execute("UPDATE #{table_name} SET #{new_column_name} = #{column_name}")
+      remove_column(table_name, column_name)
     end
 
     # @override
