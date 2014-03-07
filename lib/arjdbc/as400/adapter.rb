@@ -121,6 +121,7 @@ module ArJdbc
     end
 
     DRIVER_NAME = 'com.ibm.as400.access.AS400JDBCDriver'.freeze
+    NATIVE_DRIVER_NAME = 'com.ibm.db2.jdbc.app.DB2Driver'.freeze
 
     # Set schema is it specified
     def configure_connection
