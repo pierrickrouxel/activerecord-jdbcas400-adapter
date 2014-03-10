@@ -5,7 +5,7 @@ ArJdbc::ConnectionMethods.module_eval do
     if config[:native]
       begin
         require '/QIBM/ProdData/Java400/ext/db2_classes.jar'
-      rescue
+      rescue LoadError
         raise 'Unable to load driver: /QIBM/ProdData/Java400/ext/db2_classes.jar'
       end
     else
