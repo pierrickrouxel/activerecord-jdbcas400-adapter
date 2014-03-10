@@ -36,7 +36,7 @@ ArJdbc::ConnectionMethods.module_eval do
     require 'arjdbc/as400/adapter'
     config[:driver] ||= if defined?(::Jdbc::AS400.driver_name)
       ::Jdbc::AS400.driver_name
-    else if config[:native]
+    elsif config[:native]
       ::ArJdbc::AS400::NATIVE_DRIVER_NAME
     else
       ::ArJdbc::AS400::DRIVER_NAME
