@@ -31,6 +31,8 @@ ArJdbc::ConnectionMethods.module_eval do
       end
       url << ";naming=#{config[:naming]}" if config[:naming]
       url << ";libraries=#{config[:libraries]}" if config[:libraries]
+      url << ";auto commit=#{config[:auto_commit]}" if config[:auto_commit]
+      url << ";transaction isolation=#{config[:transaction_isolation]}" if config[:transaction_isolation]
       url
     end
     require 'arjdbc/as400/adapter'
