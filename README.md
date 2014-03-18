@@ -48,13 +48,13 @@ If your DB isn't correctly discovered you can specify the dialect:
   dialect: as400
 ```
 
-## Experimental features
-### Native connection
 To use native DB2 connection (directly on IBM i JVM only), you can add this to database.yml:
 ```yml
   native: true
 ```
+This connection doesn't require credentials.
 
+## Experimental features
 ### Current library
 To allow migrations with system naming, a configuration is added to adapter:
 
