@@ -2,13 +2,7 @@ ArJdbc::ConnectionMethods.module_eval do
   # @note Assumes AS400 driver (*jt400.jar*) is on class-path.
   def as400_connection(config)
     
-    if config[:native]
-      begin
-        require '/QIBM/ProdData/Java400/ext/db2_classes.jar'
-      rescue LoadError
-        raise 'Unable to load driver: /QIBM/ProdData/Java400/ext/db2_classes.jar'
-      end
-    else
+    unless config[:native]
       begin
         require 'jdbc/as400'
         ::Jdbc::AS400.load_driver(:require) if defined?(::Jdbc::AS400.load_driver)
