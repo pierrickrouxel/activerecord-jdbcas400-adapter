@@ -29,4 +29,10 @@ class TestAdapter < Test::Unit::TestCase
       connection.execute('DROP TABLE test_table')
     end
   end
+
+  def test_execute_system_command
+    assert_nothing_raised do
+      connection.execute_system_command('DSPJOBLOG')
+    end
+  end
 end
