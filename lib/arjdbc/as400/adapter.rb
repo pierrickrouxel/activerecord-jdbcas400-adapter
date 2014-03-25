@@ -81,8 +81,8 @@ module ArJdbc
     def execute_and_auto_confirm(sql, name = nil)
 
       begin
-        @connection.execute_system_command('QSYS/CHGJOB INQMSGRPY(*SYSRPYL)')
-        @connection.execute_system_command("ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')")
+        execute_system_command('QSYS/CHGJOB INQMSGRPY(*SYSRPYL)')
+        execute_system_command("ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')")
       rescue Exception => e
         raise "Could not call CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I').\n" +
               "Do you have authority to do this?\n\n#{e.inspect}"
@@ -99,8 +99,8 @@ module ArJdbc
 
         # Ensure default configuration restoration
         begin
-          @connection.execute_system_command('QSYS/CHGJOB INQMSGRPY(*DFT)')
-          @connection.execute_system_command('RMVRPYLE SEQNBR(9876)')
+          execute_system_command('QSYS/CHGJOB INQMSGRPY(*DFT)')
+          execute_system_command('RMVRPYLE SEQNBR(9876)')
         rescue Exception => e
           raise "Could not call CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876).\n" +
                     "Do you have authority to do this?\n\n#{e.inspect}"
@@ -134,8 +134,9 @@ module ArJdbc
     end
 
     def execute_system_command(command)
+      length = command.length
       command = ::ActiveRecord::Base.sanitize(command)
-      @connection.execute_update("CALL qsys.qcmdexc(#{command}, CAST(#{command.length - 2} AS DECIMAL(15, 5)))")
+      @connection.execute_update("CALL qsys.qcmdexc(#{command}, CAST(#{length} AS DECIMAL(15, 5)))")
     end
 
     # Disable transactions when they are not supported

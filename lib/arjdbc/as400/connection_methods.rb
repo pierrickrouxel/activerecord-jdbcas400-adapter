@@ -8,6 +8,8 @@ ArJdbc::ConnectionMethods.module_eval do
         ::Jdbc::AS400.load_driver(:require) if defined?(::Jdbc::AS400.load_driver)
       rescue LoadError # assuming driver.jar is on the class-path
       end
+
+      config[:transaction_isolation] ||= 'none'
     end
     
     config[:url] ||= begin
