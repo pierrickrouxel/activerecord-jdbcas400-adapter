@@ -35,4 +35,11 @@ class TestAdapter < Test::Unit::TestCase
       connection.execute_system_command('DSPJOBLOG')
     end
   end
+
+  def test_change_current_library
+    assert_nothing_raised do
+      connection.change_current_library('QGPL')
+      connection.change_current_library(nil)
+    end
+  end
 end

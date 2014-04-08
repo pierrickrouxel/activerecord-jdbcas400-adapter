@@ -1,7 +1,8 @@
-## 1.3.6 (Dev)
+## 1.3.6 (08/04/14)
 - Native connection support
 - Transaction configurations
 - Transaction isolation none
+- Some changes for current library feature
 
 ## 1.3.5.3 (27/02/14)
 - rename_column support

@@ -45,13 +45,6 @@ module ArJdbc
       end
     end
 
-    # Force migration in current library
-    def create_table(name, options = {})
-      execute("SET SCHEMA #{config[:current_library]}") if config[:current_library]
-      super
-      execute('SET SCHEMA DEFAULT') if config[:current_library]
-    end
-
     # Prevent migration in QGPL
     def supports_migrations?
       !(system_naming? && config[:current_library].nil?)
@@ -126,11 +119,19 @@ module ArJdbc
     # Set schema is it specified
     def configure_connection
       set_schema(config[:schema]) if config[:schema]
+      change_current_library(config[:current_library]) if config[:current_library]
     end
 
     # Do not return *LIBL as schema
     def schema
       db2_schema
+    end
+
+    # Change current library
+    def change_current_library(current_library)
+      # *CRTDFT is the nil equivalent for current library
+      current_library ||= '*CRTDFT'
+      execute_system_command("CHGCURLIB CURLIB(#{current_library})")
     end
 
     def execute_system_command(command)
