@@ -4,9 +4,9 @@
 [![Dependency Status](http://img.shields.io/gemnasium/pierrickrouxel/activerecord-jdbcas400-adapter.svg)][gemnasium]
 [![Code Climate](http://img.shields.io/codeclimate/github/pierrickrouxel/activerecord-jdbcas400-adapter.svg)][codeclimate]
 
-[gem]: https://rubygems.org/gems/multi_json
-[gemnasium]: https://gemnasium.com/intridea/multi_json
-[codeclimate]: https://codeclimate.com/github/intridea/multi_json
+[gem]: https://rubygems.org/gems/activerecord-jdbcas400-adapter
+[gemnasium]: https://gemnasium.com/pierrickrouxel/activerecord-jdbcas400-adapter
+[codeclimate]: https://codeclimate.com/github/pierrickrouxel/activerecord-jdbcas400-adapter
 
 
 https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter/
