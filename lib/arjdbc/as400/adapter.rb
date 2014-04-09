@@ -74,11 +74,10 @@ module ArJdbc
     def execute_and_auto_confirm(sql, name = nil)
 
       begin
-        execute_system_command('QSYS/CHGJOB INQMSGRPY(*SYSRPYL)')
+        execute_system_command('CHGJOB INQMSGRPY(*SYSRPYL)')
         execute_system_command("ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')")
       rescue Exception => e
-        raise "Could not call CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I').\n" +
-              "Do you have authority to do this?\n\n#{e.inspect}"
+        raise unauthorized_error_message("CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')", e)
       end
 
       begin
@@ -92,11 +91,10 @@ module ArJdbc
 
         # Ensure default configuration restoration
         begin
-          execute_system_command('QSYS/CHGJOB INQMSGRPY(*DFT)')
+          execute_system_command('CHGJOB INQMSGRPY(*DFT)')
           execute_system_command('RMVRPYLE SEQNBR(9876)')
         rescue Exception => e
-          raise "Could not call CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876).\n" +
-                    "Do you have authority to do this?\n\n#{e.inspect}"
+          raise unauthorized_error_message('CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876)', e)
         end
 
       end
@@ -183,6 +181,10 @@ module ArJdbc
           result = select_one('VALUES CURRENT_SCHEMA')
           result['00001']
         end
+    end
+
+    def unauthorized_error_message(command, exception)
+      "Could not call #{command}.\nDo you have authority to do this?\n\n#{exception.inspect}"
     end
   end
 end
