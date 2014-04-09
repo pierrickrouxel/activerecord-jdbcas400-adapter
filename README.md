@@ -1,5 +1,9 @@
 # activerecord-jdbcas400-adapter
 
+[![Gem Version](http://img.shields.io/gem/v/activerecord-jdbcas400-adapter.svg)][gem]
+[![Dependency Status](http://img.shields.io/gemnasium/pierrickrouxel/activerecord-jdbcas400-adapter.svg)][gemnasium]
+[![Code Climate](http://img.shields.io/codeclimate/github/pierrickrouxel/activerecord-jdbcas400-adapter.svg)][codeclimate]
+
 https://github.com/pierrickrouxel/activerecord-jdbcas400-adapter/
 
 ## Description
