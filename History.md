@@ -1,3 +1,7 @@
+## 1.3.6.1 (Dev)
+- Change libraries method
+- Fix recursive call bug
+
 ## 1.3.6 (08/04/14)
 - Native connection support
 - Transaction configurations
