@@ -42,4 +42,11 @@ class TestAdapter < Test::Unit::TestCase
       connection.change_current_library(nil)
     end
   end
+
+  def test_change_libraries
+    assert_nothing_raised do
+      connection.change_libraries(%w(QGPL QTEMP))
+      connection.change_libraries(nil)
+    end
+  end
 end

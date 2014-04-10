@@ -132,10 +132,16 @@ module ArJdbc
       execute_system_command("CHGCURLIB CURLIB(#{current_library})")
     end
 
+    # Change libraries
+    def change_libraries(libraries)
+      libraries = libraries.nil? || libraries.size < 1 ? '*NONE' :libraries.join(' ')
+      execute_system_command("CHGLIBL LIBL(#{libraries})")
+    end
+
     def execute_system_command(command)
       length = command.length
-      command = ::ActiveRecord::Base.sanitize(command)
-      @connection.execute_update("CALL qsys.qcmdexc(#{command}, CAST(#{length} AS DECIMAL(15, 5)))")
+      command = quote(command)
+      execute("CALL qsys.qcmdexc(#{command}, CAST(#{length} AS DECIMAL(15, 5)))")
     end
 
     # Disable transactions when they are not supported
