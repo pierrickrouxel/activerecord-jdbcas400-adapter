@@ -1,4 +1,4 @@
-## 1.3.6.1 (Dev)
+## 1.3.6.1 (10/04/14)
 - Change libraries method
 - Fix recursive call bug
 
