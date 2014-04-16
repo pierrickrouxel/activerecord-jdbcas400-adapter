@@ -1,4 +1,4 @@
-## 1.3.6.2 (Dev)
+## 1.3.7 (16/04/14)
 - Refactoring
 - Change test configurations method
 - Move system methods in separate module
