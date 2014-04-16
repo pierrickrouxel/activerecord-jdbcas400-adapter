@@ -1,6 +1,27 @@
 require 'test_helper'
 
 class TestAdapter < Test::Unit::TestCase
+
+  def test_schema
+    assert_equal(connection.schema, config[:schema])
+    assert_equal(system_connection.schema, '*LIBL')
+  end
+
+  def test_system_naming?
+    assert_false(connection.instance_eval {system_naming?})
+    assert_true(system_connection.instance_eval {system_naming?})
+  end
+
+  def test_supports_migrations?
+    assert_true(connection.supports_migrations?)
+
+    system_connection.change_current_library('QGPL')
+    assert_true(system_connection.supports_migrations?)
+
+    system_connection.change_current_library(nil)
+    assert_false(system_connection.supports_migrations?)
+  end
+
   def test_prefetch_primary_key?
     begin
       connection.execute('CREATE TABLE test_table (test_column INTEGER)')
@@ -30,23 +51,4 @@ class TestAdapter < Test::Unit::TestCase
     end
   end
 
-  def test_execute_system_command
-    assert_nothing_raised do
-      connection.execute_system_command('DSPJOBLOG')
-    end
-  end
-
-  def test_change_current_library
-    assert_nothing_raised do
-      connection.change_current_library('QGPL')
-      connection.change_current_library(nil)
-    end
-  end
-
-  def test_change_libraries
-    assert_nothing_raised do
-      connection.change_libraries(%w(QGPL QTEMP))
-      connection.change_libraries(nil)
-    end
-  end
 end

@@ -5,8 +5,13 @@ require 'activerecord-jdbc-adapter'
 
 class Test::Unit::TestCase
   def config
-    @config ||= YAML::load(File.open('config.yml'))
-    @config.symbolize_keys
+    @config ||= {
+      host: ENV['AS400_HOST'],
+      username: ENV['AS400_USERNAME'],
+      password: ENV['AS400_PASSWORD'],
+      schema: ENV['AS400_SCHEMA'],
+      libraries: ENV['AS400_LIBRARIES']
+    }
   end
 
   def data_source_connection

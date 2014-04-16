@@ -1,8 +1,7 @@
-require 'arjdbc/db2/adapter'
-
 module ArJdbc
   module AS400
     include DB2
+    include System
 
     # @private
     def self.extended(adapter); DB2.extended(adapter); end
@@ -31,15 +30,28 @@ module ArJdbc
     def self.emulate_booleans=(emulate); DB2.emulate_booleans = emulate; end
 
     ADAPTER_NAME = 'AS400'.freeze
+    DRIVER_NAME = 'com.ibm.as400.access.AS400JDBCDriver'.freeze
+    NATIVE_DRIVER_NAME = 'com.ibm.db2.jdbc.app.DB2Driver'.freeze
 
     def adapter_name
       ADAPTER_NAME
     end
 
+    # Set schema is it specified
+    def configure_connection
+      set_schema(config[:schema]) if config[:schema]
+      change_current_library(config[:current_library]) if config[:current_library]
+    end
+
+    # Do not return *LIBL as schema
+    def schema
+      db2_schema
+    end
+
     # Return only migrated tables
     def tables
-      if config[:current_library]
-        @connection.tables(nil, config[:current_library])
+      if current_library
+        @connection.tables(nil, current_library)
       else
         @connection.tables(nil, schema)
       end
@@ -47,7 +59,7 @@ module ArJdbc
 
     # Prevent migration in QGPL
     def supports_migrations?
-      !(system_naming? && config[:current_library].nil?)
+      !(system_naming? && !current_library?)
     end
 
     # @override
@@ -70,37 +82,6 @@ module ArJdbc
       execute_and_auto_confirm(sql, name)
     end
 
-    # holy moly batman! all this to tell AS400 "yes i am sure"
-    def execute_and_auto_confirm(sql, name = nil)
-
-      begin
-        execute_system_command('CHGJOB INQMSGRPY(*SYSRPYL)')
-        execute_system_command("ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')")
-      rescue Exception => e
-        raise unauthorized_error_message("CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')", e)
-      end
-
-      begin
-        result = execute(sql, name)
-      rescue Exception
-        raise
-      else
-        # Return if all work fine
-        result
-      ensure
-
-        # Ensure default configuration restoration
-        begin
-          execute_system_command('CHGJOB INQMSGRPY(*DFT)')
-          execute_system_command('RMVRPYLE SEQNBR(9876)')
-        rescue Exception => e
-          raise unauthorized_error_message('CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876)', e)
-        end
-
-      end
-    end
-    private :execute_and_auto_confirm
-
     # Disable all schemas browsing
     def table_exists?(name)
       return false unless name
@@ -109,39 +90,6 @@ module ArJdbc
 
     def indexes(table_name, name = nil)
       @connection.indexes(table_name, name, schema)
-    end
-
-    DRIVER_NAME = 'com.ibm.as400.access.AS400JDBCDriver'.freeze
-    NATIVE_DRIVER_NAME = 'com.ibm.db2.jdbc.app.DB2Driver'.freeze
-
-    # Set schema is it specified
-    def configure_connection
-      set_schema(config[:schema]) if config[:schema]
-      change_current_library(config[:current_library]) if config[:current_library]
-    end
-
-    # Do not return *LIBL as schema
-    def schema
-      db2_schema
-    end
-
-    # Change current library
-    def change_current_library(current_library)
-      # *CRTDFT is the nil equivalent for current library
-      current_library ||= '*CRTDFT'
-      execute_system_command("CHGCURLIB CURLIB(#{current_library})")
-    end
-
-    # Change libraries
-    def change_libraries(libraries)
-      libraries = libraries.nil? || libraries.size < 1 ? '*NONE' :libraries.join(' ')
-      execute_system_command("CHGLIBL LIBL(#{libraries})")
-    end
-
-    def execute_system_command(command)
-      length = command.length
-      command = quote(command)
-      execute("CALL qsys.qcmdexc(#{command}, CAST(#{length} AS DECIMAL(15, 5)))")
     end
 
     # Disable transactions when they are not supported
@@ -187,6 +135,36 @@ module ArJdbc
           result = select_one('VALUES CURRENT_SCHEMA')
           result['00001']
         end
+    end
+
+    # Holy moly batman! all this to tell AS400 "yes i am sure"
+    def execute_and_auto_confirm(sql, name = nil)
+
+      begin
+        execute_system_command('CHGJOB INQMSGRPY(*SYSRPYL)')
+        execute_system_command("ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')")
+      rescue Exception => e
+        raise unauthorized_error_message("CHGJOB INQMSGRPY(*SYSRPYL) and ADDRPYLE SEQNBR(9876) MSGID(CPA32B2) RPY('I')", e)
+      end
+
+      begin
+        result = execute(sql, name)
+      rescue Exception
+        raise
+      else
+        # Return if all work fine
+        result
+      ensure
+
+        # Ensure default configuration restoration
+        begin
+          execute_system_command('CHGJOB INQMSGRPY(*DFT)')
+          execute_system_command('RMVRPYLE SEQNBR(9876)')
+        rescue Exception => e
+          raise unauthorized_error_message('CHGJOB INQMSGRPY(*DFT) and RMVRPYLE SEQNBR(9876)', e)
+        end
+
+      end
     end
 
     def unauthorized_error_message(command, exception)

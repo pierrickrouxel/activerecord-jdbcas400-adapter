@@ -1,3 +1,9 @@
+## 1.3.6.2 (Dev)
+- Refactoring
+- Change test configurations method
+- Move system methods in separate module
+- Set supports_migrations to true is current_library is defined
+
 ## 1.3.6.1 (10/04/14)
 - Change libraries method
 - Fix recursive call bug
