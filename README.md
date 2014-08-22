@@ -88,6 +88,24 @@ production:
   current_library: <%=current_library%>
 ```
 
+### Transaction isolation : no commit
+If your database supports setting the isolation level for a transaction, you can set it like so:
+
+```ruby
+Post.transaction(isolation: :no_commit) do
+  #...
+end
+```
+
+Valid isolation levels are:
+```
+  :read_uncommitted
+  :read_committed
+  :repeatable_read
+  :serializable
+  :no_commit
+```
+
 ## Compatibility
 
 Actually activerecord-jdbcas400-adapter is only compatible with IBM i V6R1 and later versions.

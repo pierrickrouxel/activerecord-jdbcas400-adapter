@@ -1,3 +1,6 @@
+## 1.3.9 (dev)
+- Add transaction isolation : no_commit
+
 ## 1.3.7 (16/04/14)
 - Refactoring
 - Change test configurations method

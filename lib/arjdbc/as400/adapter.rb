@@ -93,24 +93,15 @@ module ArJdbc
     end
 
     # Disable transactions when they are not supported
-    def begin_db_transaction
-      super unless config[:transaction_isolation] == 'none'
-    end
-
-    def commit_db_transaction
-      super unless config[:transaction_isolation] == 'none'
-    end
-
-    def rollback_db_transaction
-      super unless config[:transaction_isolation] == 'none'
+    def transaction_isolation_levels
+      super.transaction_isolation_levels.merge({ no_commit: "NO COMMIT" })
     end
 
     def begin_isolated_db_transaction(isolation)
-      super unless config[:transaction_isolation] == 'none'
-    end
-
-    def create_savepoint(name = current_savepoint_name(true))
-      super unless config[:transaction_isolation] == 'none'
+      execute "SET TRANSACTION ISOLATION LEVEL #{transaction_isolation_levels.fetch(isolation)}"
+      begin_db_transaction
+    rescue
+      # Transactions aren't supported
     end
 
     private
