@@ -94,7 +94,7 @@ module ArJdbc
 
     # Disable transactions when they are not supported
     def transaction_isolation_levels
-      super.transaction_isolation_levels.merge({ no_commit: "NO COMMIT" })
+      super.merge({ no_commit: 'NO COMMIT' })
     end
 
     def begin_isolated_db_transaction(isolation)

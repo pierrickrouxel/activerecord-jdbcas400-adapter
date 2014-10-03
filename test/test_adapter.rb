@@ -51,4 +51,8 @@ class TestAdapter < Test::Unit::TestCase
     end
   end
 
+  def test_transaction_isolation_levels
+    assert_equal(connection.transaction_isolation_levels.fetch(:no_commit), 'NO COMMIT')
+  end
+
 end
