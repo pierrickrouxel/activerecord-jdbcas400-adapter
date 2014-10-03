@@ -63,6 +63,24 @@ To use native DB2 connection (directly on IBM i JVM only), you can add this to d
 ```
 This connection doesn't require credentials.
 
+### Transaction isolation : no commit
+If your database supports setting the isolation level for a transaction, you can set it like so:
+
+```ruby
+Post.transaction(isolation: :no_commit) do
+  #...
+end
+```
+
+Valid isolation levels are:
+```
+  :read_uncommitted
+  :read_committed
+  :repeatable_read
+  :serializable
+  :no_commit
+```
+
 ## Experimental features
 ### Current library
 To allow migrations with system naming, a configuration is added to adapter:
@@ -86,24 +104,6 @@ production:
   adapter: as400
   jndi: jdbc/dataSource
   current_library: <%=current_library%>
-```
-
-### Transaction isolation : no commit
-If your database supports setting the isolation level for a transaction, you can set it like so:
-
-```ruby
-Post.transaction(isolation: :no_commit) do
-  #...
-end
-```
-
-Valid isolation levels are:
-```
-  :read_uncommitted
-  :read_committed
-  :repeatable_read
-  :serializable
-  :no_commit
 ```
 
 ## Compatibility

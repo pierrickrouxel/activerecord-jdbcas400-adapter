@@ -1,4 +1,4 @@
-## 1.3.9 (dev)
+## 1.3.9 (03/10/14)
 - Fix rename_column with transaction
 - Add transaction isolation : no_commit
 
