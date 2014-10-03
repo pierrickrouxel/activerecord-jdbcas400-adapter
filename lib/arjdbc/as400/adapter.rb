@@ -98,10 +98,8 @@ module ArJdbc
     end
 
     def begin_isolated_db_transaction(isolation)
-      execute "SET TRANSACTION ISOLATION LEVEL #{transaction_isolation_levels.fetch(isolation)}"
       begin_db_transaction
-    rescue
-      # Transactions aren't supported
+      execute "SET TRANSACTION ISOLATION LEVEL #{transaction_isolation_levels.fetch(isolation)}"
     end
 
     private
