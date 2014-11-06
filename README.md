@@ -113,4 +113,4 @@ It requires JDBC 4.0 driver and Java 6.
 
 ## Dependency
 
-You can embed the JTOpen driver in your application. It is distributed in a separate gem : 'as400-jdbc'
+You can embed the JTOpen driver in your application. It is distributed in a separate gem : '[jdbc-as400](http://rubygems.org/gems/jdbc-as400)'
