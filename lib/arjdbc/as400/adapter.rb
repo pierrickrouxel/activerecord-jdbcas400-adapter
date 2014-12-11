@@ -48,13 +48,16 @@ module ArJdbc
       db2_schema
     end
 
-    # Return only migrated tables
     def tables(name = nil)
-      if system_naming? and !current_library
-        raise StandardError.new('Unable to retrieve tables without current library')
-      else
-        @connection.tables(nil, name)
+      # Do not perform search on all system
+      if system_naming?
+        name ||= current_library
+        unless name
+          raise StandardError.new('Unable to retrieve tables without current library')
+        end
       end
+
+      @connection.tables(nil, name)
     end
 
     # Prevent migration in QGPL
