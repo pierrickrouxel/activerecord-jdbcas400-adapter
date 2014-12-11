@@ -49,11 +49,11 @@ module ArJdbc
     end
 
     # Return only migrated tables
-    def tables
-      if current_library
-        @connection.tables(nil, current_library)
+    def tables(name = nil)
+      if system_naming? and !current_library
+        raise StandardError.new('Unable to retrieve tables without current library')
       else
-        @connection.tables(nil, schema)
+        @connection.tables(nil, name)
       end
     end
 
