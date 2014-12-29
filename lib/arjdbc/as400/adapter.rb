@@ -75,6 +75,9 @@ module ArJdbc
     # @override
     def rename_column(table_name, column_name, new_column_name)
       column = columns(table_name, column_name).find { |column| column.name == column_name.to_s}
+      unless column
+        raise ActiveRecord::ActiveRecordError, "No such column: #{table_name}.#{column_name}"
+      end
       add_column(table_name, new_column_name, column.type, column.instance_values)
       execute("UPDATE #{quote_table_name(table_name)} SET #{quote_column_name(new_column_name)} = #{quote_column_name(column_name)} WITH NC")
       remove_column(table_name, column_name)

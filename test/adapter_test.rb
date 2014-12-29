@@ -43,6 +43,10 @@ class TestAdapter < Test::Unit::TestCase
       connection.execute('CREATE TABLE test_table (test_column INTEGER)')
       connection.execute('INSERT INTO test_table(test_column) VALUES(1)')
 
+      assert_raise do
+        connection.rename_column('test_table', 'no_column', '')
+      end
+
       connection.rename_column('test_table', 'test_column', 'new_test_column')
       assert_not_nil(connection.columns('test_table').find { |column| column.name == 'new_test_column' })
       assert_equal(connection.select_one('SELECT new_test_column FROM test_table')['new_test_column'], 1)
