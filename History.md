@@ -1,3 +1,6 @@
+## 1.3.10 (29/12/14)
+- Better errors
+
 ## 1.3.9 (03/10/14)
 - Fix rename_column with transaction
 - Add transaction isolation : no_commit
