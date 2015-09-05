@@ -1,7 +1,7 @@
 ArJdbc::ConnectionMethods.module_eval do
   # @note Assumes AS400 driver (*jt400.jar*) is on class-path.
   def as400_connection(config)
-    
+
     if config[:native]
       config[:transaction_isolation] ||= 'none'
     else
@@ -11,7 +11,7 @@ ArJdbc::ConnectionMethods.module_eval do
       rescue LoadError # assuming driver.jar is on the class-path
       end
     end
-    
+
     config[:url] ||= begin
       url = 'jdbc:'
       if config[:native]

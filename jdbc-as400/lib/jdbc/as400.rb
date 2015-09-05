@@ -5,7 +5,7 @@ module Jdbc
   module AS400
 
     def self.driver_jar
-      "jt400Native-#{DRIVER_VERSION}.jar"
+      "jt400-#{DRIVER_VERSION}.jar"
     end
 
     def self.load_driver(method = :load)

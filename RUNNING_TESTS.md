@@ -10,4 +10,4 @@ export AS400_SCHEMA=ARJDBC_TEST
 export AS400_LIBRARIES=QTEMP,ARJDBC_TEST
 ```
 
-All tests can run out of rails. You can just write in console 'rake test'.
+All tests can run out of rails. You can just write in console 'bundle exec rake test'.
