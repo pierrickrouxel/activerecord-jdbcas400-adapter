@@ -1,4 +1,5 @@
-require 'java'
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
 require 'test-unit'
 require 'activerecord-jdbc-adapter'
