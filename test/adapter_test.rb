@@ -38,6 +38,23 @@ class TestAdapter < Test::Unit::TestCase
     end
   end
 
+  def test_truncate
+    begin
+      connection.execute('CREATE TABLE test_table (test_column INTEGER)')
+    ensure
+      if connection.os400_version[:major] < 7 || (connection.os400_version[:major] == 7 && connection.os400_version[:minor] < 2)
+        assert_raise NotImplementedError do
+          connection.truncate 'test_table'
+        end
+      else
+        assert_nothing_raised do
+          connection.truncate 'test_table'
+        end
+      end
+      connection.execute('DROP TABLE test_table')
+    end
+  end
+
   def test_rename_column
     begin
       connection.execute('CREATE TABLE test_table (test_column INTEGER)')

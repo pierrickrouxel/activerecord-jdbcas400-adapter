@@ -40,6 +40,13 @@ module ArJdbc
       change_current_library(config[:current_library]) if config[:current_library]
     end
 
+    def os400_version
+      metadata = jdbc_connection.getMetaData()
+      major = metadata.getDatabaseMajorVersion()
+      minor = metadata.getDatabaseMinorVersion()
+      { major: major, minor: minor }
+    end
+
     # Do not return *LIBL as schema
     def schema
       db2_schema
@@ -67,6 +74,16 @@ module ArJdbc
       return true if table_name.nil?
       table_name = table_name.to_s
       primary_key(table_name).nil?
+    end
+
+    # TRUNCATE only works with V7R2+
+    # @override
+    def truncate(table_name, name = nil)
+      if os400_version[:major] < 7 || (os400_version[:major] == 7 && os400_version[:minor] < 2)
+        raise NotImplementedError
+      else
+        super
+      end
     end
 
     # @override
