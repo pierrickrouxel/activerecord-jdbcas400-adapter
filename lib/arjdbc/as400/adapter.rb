@@ -16,11 +16,8 @@ module ArJdbc
     def self.arel_visitor_type(config = nil); DB2.arel_visitor_type(config); end
 
     def self.column_selector
-      [ /as400/i, lambda { |config, column| column.extend(Column) } ]
+      [ /as400/i, lambda { |config, column| column.extend(ColumnMethods) } ]
     end
-
-    # @private
-    Column = DB2::Column
 
     # Boolean emulation can be disabled using :
     #
@@ -69,7 +66,7 @@ module ArJdbc
     def prefetch_primary_key?(table_name = nil)
       return true if table_name.nil?
       table_name = table_name.to_s
-      columns(table_name).count { |column| column.primary } == 0
+      primary_key(table_name).nil?
     end
 
     # @override
