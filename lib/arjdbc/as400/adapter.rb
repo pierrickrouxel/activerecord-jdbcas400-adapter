@@ -69,11 +69,14 @@ module ArJdbc
       !(system_naming? && !current_library?)
     end
 
-    # @override
+    # If true, next_sequence_value is called before each insert statement
+    # to set the record's primary key.
+    # By default DB2 for i supports IDENTITY_VAL_LOCAL for tables that have
+    # one primary key.
     def prefetch_primary_key?(table_name = nil)
       return true if table_name.nil?
       table_name = table_name.to_s
-      primary_key(table_name).nil?
+      primary_keys(table_name.to_s).size == 0
     end
 
     # TRUNCATE only works with V7R2+

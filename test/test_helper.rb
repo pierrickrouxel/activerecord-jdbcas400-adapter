@@ -24,6 +24,8 @@ class Test::Unit::TestCase
     rescue LoadError # assuming driver.jar is on the class-path
     end
 
+    require 'java'
+
     # Create a data source to the iSeries database.
     datasource = com.ibm.as400.access.AS400JDBCDataSource.new
     datasource.setServerName(config[:host])
