@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     ]
   spec.test_files = *Dir['test/**/*'].to_a
 
-  spec.add_dependency 'activerecord', '~> 4.1.13'
+  spec.add_dependency 'activerecord', '>= 3.0.0'
   spec.add_dependency 'activerecord-jdbc-adapter', '>= 1.3.17'
 
   spec.add_development_dependency 'bundler', '~> 1.5'
