@@ -3,8 +3,13 @@ CodeClimate::TestReporter.start
 
 require 'test-unit'
 require 'activerecord-jdbc-adapter'
+require 'activerecord-jdbcas400-adapter'
 
 class Test::Unit::TestCase
+  def setup
+    @connection = nil
+  end
+
   def config
     @config ||= {
       host: ENV['AS400_HOST'],

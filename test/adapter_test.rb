@@ -7,21 +7,6 @@ class TestAdapter < Test::Unit::TestCase
     assert_equal(system_connection.schema, '*LIBL')
   end
 
-  def test_system_naming?
-    assert_false(connection.instance_eval {system_naming?})
-    assert_true(system_connection.instance_eval {system_naming?})
-  end
-
-  def test_supports_migrations?
-    assert_true(connection.supports_migrations?)
-
-    system_connection.change_current_library('QGPL')
-    assert_true(system_connection.supports_migrations?)
-
-    system_connection.change_current_library(nil)
-    assert_false(system_connection.supports_migrations?)
-  end
-
   def test_prefetch_primary_key?
     begin
       connection.execute('CREATE TABLE test_table (test_column INTEGER)')
@@ -74,6 +59,14 @@ class TestAdapter < Test::Unit::TestCase
 
   def test_transaction_isolation_levels
     assert_equal(connection.transaction_isolation_levels.fetch(:no_commit), 'NO COMMIT')
+  end
+
+  def test_change_current_library
+    connection = system_connection
+    assert_nothing_raised do
+      connection.instance_eval {change_current_library('QGPL')}
+      connection.instance_eval {change_current_library(nil)}
+    end
   end
 
 end

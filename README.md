@@ -40,9 +40,6 @@ development:
   password: 1234
 
   naming: sql
-
-  # This is possible only if naming=system and schema isn't defined
-  libraries: lib1,lib2,lib3
 ```
 
 You cas also use JNDI in production mode:
@@ -62,6 +59,28 @@ To use native DB2 connection (directly on IBM i JVM only), you can add this to d
   native: true
 ```
 This connection doesn't require credentials.
+
+### Naming
+IBM i allows two different naming conventions
+
+#### SQL
+The IBM i works with standard SQL behavior. The connection is established on a schema (username by default).
+It's the default adapter mode.
+
+#### System
+The IBM i works with system conventions:
+  * you can use `/` as separator
+  * the connection use library list to find not qualified tables
+  * not qualified tables are created in the current library
+
+You can defined the property naming:
+```yml
+development:
+  naming: naming
+
+  # This is possible only if naming=system and schema isn't defined
+  libraries: lib1,lib2,lib3
+```
 
 ### Transaction isolation : no commit
 If your database supports setting the isolation level for a transaction, you can set it like so:

@@ -1,7 +1,6 @@
 module ArJdbc
   module AS400
     include DB2
-    include System
 
     # @private
     def self.extended(adapter); DB2.extended(adapter); end
@@ -181,6 +180,20 @@ module ArJdbc
 
     def unauthorized_error_message(command, exception)
       "Could not call #{command}.\nDo you have authority to do this?\n\n#{exception.inspect}"
+    end
+
+    # Execute system command with +qsys.qcmdexc+
+    def execute_system_command(command)
+      length = command.length
+      command = quote(command)
+      execute("CALL qsys.qcmdexc(#{command}, CAST(#{length} AS DECIMAL(15, 5)))")
+    end
+
+    # Change current library
+    def change_current_library(current_library)
+      # *CRTDFT is the nil equivalent for current library
+      current_library ||= '*CRTDFT'
+      execute_system_command("CHGCURLIB CURLIB(#{current_library})")
     end
   end
 end
