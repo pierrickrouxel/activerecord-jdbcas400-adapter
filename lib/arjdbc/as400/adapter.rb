@@ -35,7 +35,12 @@ module ArJdbc
 
     # Set schema is it specified
     def configure_connection
-      set_schema(config[:schema]) if config[:schema]
+      schema = self.schema
+
+      # Executes the +set schema+ statement using the schema identifier provided
+      set_schema(schema) if schema && schema != config[:username] && schema != '*LIBL'
+
+      # Changes the current library
       change_current_library(config[:current_library]) if config[:current_library]
     end
 
@@ -44,28 +49,6 @@ module ArJdbc
       major = metadata.getDatabaseMajorVersion()
       minor = metadata.getDatabaseMinorVersion()
       { major: major, minor: minor }
-    end
-
-    # Do not return *LIBL as schema
-    def schema
-      db2_schema
-    end
-
-    def tables(name = nil)
-      # Do not perform search on all system
-      if system_naming?
-        name ||= current_library
-        unless name
-          raise StandardError.new('Unable to retrieve tables without current library')
-        end
-      end
-
-      @connection.tables(nil, name)
-    end
-
-    # Prevent migration in QGPL
-    def supports_migrations?
-      !(system_naming? && !current_library?)
     end
 
     # If true, next_sequence_value is called before each insert statement
@@ -90,7 +73,7 @@ module ArJdbc
 
     # @override
     def rename_column(table_name, column_name, new_column_name)
-      column = columns(table_name, column_name).find { |column| column.name == column_name.to_s}
+      column = columns(table_name, column_name).find { |c| c.name == column_name.to_s }
       unless column
         raise ActiveRecord::ActiveRecordError, "No such column: #{table_name}.#{column_name}"
       end
@@ -104,16 +87,6 @@ module ArJdbc
       execute_and_auto_confirm(sql, name)
     end
 
-    # Disable all schemas browsing
-    def table_exists?(name)
-      return false unless name
-      @connection.table_exists?(name, schema)
-    end
-
-    def indexes(table_name, name = nil)
-      @connection.indexes(table_name, name, schema)
-    end
-
     # Disable transactions when they are not supported
     def transaction_isolation_levels
       super.merge({ no_commit: 'NO COMMIT' })
@@ -125,29 +98,6 @@ module ArJdbc
     end
 
     private
-    # If naming is really in system mode CURRENT_SCHEMA is *LIBL
-    def system_naming?
-      schema == '*LIBL'
-    end
-
-    # SET SCHEMA statement put connection in sql naming
-    def set_schema(schema)
-      execute("SET SCHEMA #{schema}")
-    end
-
-    # @override
-    def db2_schema
-      return @db2_schema if defined? @db2_schema
-      @db2_schema =
-        if config[:schema].present?
-          config[:schema]
-        else
-          # Only found method to set db2_schema from jndi
-          result = select_one('VALUES CURRENT_SCHEMA')
-          result['00001']
-        end
-    end
-
     # Holy moly batman! all this to tell AS400 "yes i am sure"
     def execute_and_auto_confirm(sql, name = nil)
 

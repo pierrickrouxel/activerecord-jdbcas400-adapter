@@ -41,6 +41,12 @@ ArJdbc::ConnectionMethods.module_eval do
     end
     config[:adapter_spec] ||= ::ArJdbc::AS400
     config[:connection_alive_sql] ||= 'SELECT 1 FROM sysibm.tables FETCH FIRST 1 ROWS ONLY'
+
+    # *LIBL is the default configuration for system naming
+    if config[:naming] = 'system'
+      config[:schema] ||= '*LIBL'
+    end
+
     jdbc_connection(config)
   end
 end
