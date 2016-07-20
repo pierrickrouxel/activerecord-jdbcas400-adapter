@@ -19,7 +19,7 @@ module ArJdbc
 
       # Change libraries
       def change_libraries(libraries)
-        libraries = libraries.nil? || libraries.size < 1 ? '*NONE' :libraries.join(' ')
+        libraries = libraries.nil? || libraries.size < 1 ? '*NONE' : libraries.join(' ')
         execute_system_command("CHGLIBL LIBL(#{libraries})")
       end
 
