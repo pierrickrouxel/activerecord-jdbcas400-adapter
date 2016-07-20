@@ -63,7 +63,7 @@ To use native DB2 connection (directly on IBM i JVM only), you can add this to d
 ```
 This connection doesn't require credentials.
 
-### Transaction isolation : no commit
+### Transaction isolation: no commit
 If your database supports setting the isolation level for a transaction, you can set it like so:
 
 ```ruby
@@ -89,7 +89,7 @@ To allow migrations with system naming, a configuration is added to adapter:
   current_library: lib
 ```
 
-The specified library will be used to define a schema during create_table migration.
+The specified library will be used to define a schema during `create_table` migration.
 It prevents creation of a table in QGPL.
 
 If you want to use it with JNDI you can create a JNDI string and use erb in yaml to do something like this:

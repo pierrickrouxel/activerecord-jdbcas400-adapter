@@ -1,7 +1,6 @@
 module ArJdbc
   module AS400
     include DB2
-    include System
 
     # @private
     def self.extended(adapter); DB2.extended(adapter); end
@@ -37,7 +36,9 @@ module ArJdbc
     # Set schema is it specified
     def configure_connection
       set_schema(config[:schema]) if config[:schema]
-      change_current_library(config[:current_library]) if config[:current_library]
+      if config[:current_library]
+        execute_system_command("CHGCURLIB CURLIB(#{config[:current_library]})")
+      end
     end
 
     def os400_version
@@ -47,26 +48,21 @@ module ArJdbc
       { major: major, minor: minor }
     end
 
-    # Do not return *LIBL as schema
+    # Do not return *LIBL
     def schema
-      db2_schema
+      db2_schema == '*LIBL' ? @current_library : db2_schema
     end
 
     def tables(name = nil)
       # Do not perform search on all system
       if system_naming?
-        name ||= current_library
+        name ||= @current_library
         unless name
           raise StandardError.new('Unable to retrieve tables without current library')
         end
       end
 
       @connection.tables(nil, name)
-    end
-
-    # Prevent migration in QGPL
-    def supports_migrations?
-      !(system_naming? && !current_library?)
     end
 
     # If true, next_sequence_value is called before each insert statement
@@ -126,9 +122,14 @@ module ArJdbc
     end
 
     private
+    def execute_system_command(command)
+      command = quote(command)
+      execute("CALL qsys2.qcmdexc(#{command})")
+    end
+
     # If naming is really in system mode CURRENT_SCHEMA is *LIBL
     def system_naming?
-      schema == '*LIBL'
+      db2_schema == '*LIBL'
     end
 
     # SET SCHEMA statement put connection in sql naming

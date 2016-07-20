@@ -1,36 +1,35 @@
 PATH
   remote: .
   specs:
-    activerecord-jdbcas400-adapter (1.3.17)
-      activerecord (~> 4.1.13)
+    activerecord-jdbcas400-adapter (1.3.20)
       activerecord-jdbc-adapter (>= 1.3.17)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.1.13)
-      activesupport (= 4.1.13)
+    activemodel (4.2.7)
+      activesupport (= 4.2.7)
       builder (~> 3.1)
-    activerecord (4.1.13)
-      activemodel (= 4.1.13)
-      activesupport (= 4.1.13)
-      arel (~> 5.0.0)
-    activerecord-jdbc-adapter (1.3.17)
+    activerecord (4.2.7)
+      activemodel (= 4.2.7)
+      activesupport (= 4.2.7)
+      arel (~> 6.0)
+    activerecord-jdbc-adapter (1.3.20)
       activerecord (>= 2.2)
-    activesupport (4.1.13)
-      i18n (~> 0.6, >= 0.6.9)
+    activesupport (4.2.7)
+      i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
-      thread_safe (~> 0.1)
+      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    arel (5.0.1.20140414130214)
+    arel (6.0.3)
     builder (3.2.2)
     codeclimate-test-reporter (0.4.8)
       simplecov (>= 0.7.1, < 1.0.0)
     docile (1.1.5)
     i18n (0.7.0)
     json (1.8.3-java)
-    minitest (5.8.0)
+    minitest (5.9.0)
     power_assert (0.2.4)
     rake (10.4.2)
     simplecov (0.10.0)
@@ -48,6 +47,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  activerecord (>= 3.0.0, < 5.0.0)
   activerecord-jdbcas400-adapter!
   bundler (~> 1.5)
   codeclimate-test-reporter
@@ -55,4 +55,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.10.6
+   1.12.5
